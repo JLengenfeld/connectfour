@@ -2,7 +2,15 @@ package de.cccc.connectfour;
 
 public class Game {
 
-    private Integer[][] field = new Integer[9][9];
+    private final Integer[][] field;
+    
+    public Game() {
+    	this(7,6); // Standardgroesse eines connect-four Spiels
+    }
+    
+    public Game(int cols, int rows) {
+    	this.field = new Integer[cols][rows];
+    }
 
     public void playerOnePutsCoin(int aCollum) {
         for (int i = 0; i < field[aCollum].length; i++) {
