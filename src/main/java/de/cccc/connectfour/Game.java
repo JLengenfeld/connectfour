@@ -2,7 +2,15 @@ package de.cccc.connectfour;
 
 public class Game {
 
-    private Integer[][] field = new Integer[9][9];
+    private final Integer[][] field;
+    
+    public Game() {
+    	this(new Integer[9][9]);
+    }
+    
+    public Game(Integer[][] field) {
+    	this.field = field;
+    }
 
     public void playerOnePutsCoin(int aCollum) {
         for (int i = 0; i < field[aCollum].length; i++) {
