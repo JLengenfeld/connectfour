@@ -5,11 +5,11 @@ public class Game {
     private final Integer[][] field;
     
     public Game() {
-    	this(new Integer[9][9]);
+    	this(7,6); // Standardgroesse eines connect-four Spiels
     }
     
-    public Game(Integer[][] field) {
-    	this.field = field;
+    public Game(int cols, int rows) {
+    	this.field = new Integer[cols][rows];
     }
 
     public void playerOnePutsCoin(int aCollum) {
