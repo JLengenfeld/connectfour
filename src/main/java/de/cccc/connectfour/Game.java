@@ -50,9 +50,5 @@ public class Game {
 		return field.get(aCollum).size() < rows;
 	}
 
-
 }
 
-class Coin {
-	String belonginPlayer;
-}
