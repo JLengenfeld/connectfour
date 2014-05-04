@@ -16,44 +16,39 @@ public class GameTest {
 
     @Test
     public void playerOneScores() throws Exception {
-        int collum = 0;
-        game.playerOnePutsCoin(collum);
+        game.playerOnePutsCoin(0);
 
-        assertEquals(1, game.getScore(collum));
+        assertEquals(1, game.getScore(0));
     }
 
     @Test
     public void playerTwoScores() throws Exception {
-        int collum = 0;
-        game.playerTwoPutsCoin(collum);
+        game.playerTwoPutsCoin(0);
 
-        assertEquals(1, game.getScore(collum));
+        assertEquals(1, game.getScore(0));
     }
 
     @Test
     public void playerOneAndTwoScores() throws Exception {
-        int collum = 0;
-        game.playerOnePutsCoin(collum);
-        game.playerTwoPutsCoin(collum);
+        game.playerOnePutsCoin(0);
+        game.playerTwoPutsCoin(0);
 
-        assertEquals(2, game.getScore(collum));
+        assertEquals(2, game.getScore(0));
     }
 
     @Test
     public void lastCoinMustBelongToPlayerOne() throws Exception {
-        int collum = 0;
-        game.playerOnePutsCoin(collum);
+        game.playerOnePutsCoin(0);
 
-        assertEquals("player one", game.getLastCoin(collum));
+        assertEquals("player one", game.getLastCoin(0));
     }
 
     @Test
     public void lastCoinMustBelongToPlayerTwo() throws Exception {
-        int collum = 0;
-        game.playerOnePutsCoin(collum);
-        game.playerTwoPutsCoin(collum);
+        game.playerOnePutsCoin(0);
+        game.playerTwoPutsCoin(0);
 
-        assertEquals("player two", game.getLastCoin(collum));
+        assertEquals("player two", game.getLastCoin(0));
     }
 
 }
