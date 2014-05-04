@@ -3,6 +3,7 @@ package de.cccc.connectfour;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Game {
 
@@ -21,9 +22,9 @@ public class Game {
 	 * @param rows
 	 */
 	public Game(int cols, int rows) {
-		this.rows  = rows;
+		this.rows = rows;
 		this.field = new ArrayList<Stack<String>>(cols);
-		
+
 		int i = 0;
 		while (i++ < cols) {
 			field.add(new Stack<String>());
@@ -50,5 +51,46 @@ public class Game {
 		return field.get(aCollum).size() < rows;
 	}
 
-}
+	int connectedElementsInColumn(int aCollum) {
+		Stack<String> stack = field.get(aCollum);
+		if (stack.isEmpty()) {
+			return 0;
+		} else {
+			AtomicInteger index = new AtomicInteger();
+			return (int) stack
+					.stream()
+					.filter(i -> i.equals(before(stack, index))
+							|| i.equals(next(stack, index))).count();
+		}
+	}
 
+	/**
+	 * FIXME: move own stack implementation
+	 * 
+	 * @param stack
+	 * @param index
+	 * @return
+	 */
+	private String before(Stack<String> stack, AtomicInteger index) {
+		int next = index.get() - 1;
+		if (next > 0)
+			return stack.get(next);
+		else
+			return null;
+	}
+
+	/**
+	 * FIXME: move own stack implementation
+	 * 
+	 * @param stack
+	 * @param index
+	 * @return
+	 */
+	private String next(Stack<String> stack, AtomicInteger index) {
+		int next = index.incrementAndGet();
+		if (next < stack.size())
+			return stack.get(next);
+		else
+			return null;
+	}
+}
