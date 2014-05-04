@@ -1,63 +1,51 @@
 package de.cccc.connectfour;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 public class Game {
 
-    private final Integer[][] field;
-    
-    public Game() {
-    	this(7,6); // Standardgroesse eines connect-four Spiels
-    }
-    
-    public Game(int cols, int rows) {
-    	this.field = new Integer[cols][rows];
-    }
+	private static final String PLAYER_ONE = "player one";
+	private static final String PLAYER_TWO = "player two";
 
-    public void playerOnePutsCoin(int aCollum) {
-        for (int i = 0; i < field[aCollum].length; i++) {
-            if (field[aCollum][i] == null) {
-                field[aCollum][i] = 1;
-                break;
-            }
-        }
-    }
+	private List<Stack<String>> field = null;
 
-    public void playerTwoPutsCoin(int aCollum) {
-        for (int i = 0; i < field[aCollum].length; i++) {
-            if (field[aCollum][i] == null) {
-                field[aCollum][i] = 2;
-                break;
-            }
-        }
-    }
+	public Game() {
+		this(7, 6); // Standardgroesse eines connect-four Spiels
+	}
 
-    public String getLastCoin(int aCollum) {
-        for (int i = field[aCollum].length - 1; i >= 0; i--) {
-            if (field[aCollum][i] != null) {
-                switch (field[aCollum][i]) {
-                case 1:
-                    return "player one";
-                case 2:
-                    return "player two";
-                default:
-                    return "jonas";
-                }
-            }
-        }
-        return "jonas again :(";
-    }
+	/**
+	 * @param cols
+	 * @param rows
+	 */
+	public Game(int cols, int rows) {
+		this.field = new ArrayList<Stack<String>>(cols);
+		
+		int i = 0;
+		while (i++ < cols) {
+			field.add(new Stack<String>());
+		}
+	}
 
-    public int getScore(int aCollum) {
-        int score = 0;
-        for (int i = 0; i < field[aCollum].length; i++) {
-            if (field[aCollum][i] != null) {
-                score++;
-            }
-        }
-        return score;
-    }
+	public void playerOnePutsCoin(int aCollum) {
+		field.get(aCollum).push(PLAYER_ONE);
+	}
+
+	public void playerTwoPutsCoin(int aCollum) {
+		field.get(aCollum).push(PLAYER_TWO);
+	}
+
+	public String getLastCoin(int aCollum) {
+		return field.get(aCollum).peek();
+	}
+
+	public int getScore(int aCollum) {
+		return field.get(aCollum).size();
+	}
 
 }
 
 class Coin {
-    String belonginPlayer;
+	String belonginPlayer;
 }
