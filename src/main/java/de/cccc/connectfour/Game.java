@@ -10,6 +10,7 @@ public class Game {
 	private static final String PLAYER_TWO = "player two";
 
 	private List<Stack<String>> field = null;
+	int rows = 0;
 
 	public Game() {
 		this(7, 6); // Standardgroesse eines connect-four Spiels
@@ -20,6 +21,7 @@ public class Game {
 	 * @param rows
 	 */
 	public Game(int cols, int rows) {
+		this.rows  = rows;
 		this.field = new ArrayList<Stack<String>>(cols);
 		
 		int i = 0;
@@ -43,6 +45,11 @@ public class Game {
 	public int getScore(int aCollum) {
 		return field.get(aCollum).size();
 	}
+
+	public boolean canPut(int aCollum) {
+		return field.get(aCollum).size() < rows;
+	}
+
 
 }
 

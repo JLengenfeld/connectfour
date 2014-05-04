@@ -1,6 +1,8 @@
 package de.cccc.connectfour;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
+import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +51,23 @@ public class GameTest {
         game.playerTwoPutsCoin(0);
 
         assertEquals("player two", game.getLastCoin(0));
+    }
+    
+    @Test
+	public void canPustCoin() throws Exception {
+    	assertTrue(game.canPut(0));
+	}
+
+    @Test
+    public void cannotPutAfterPutting6Times() throws Exception {
+    	IntStream.range(0, game.rows).forEach(value-> game.playerOnePutsCoin(0));
+    	assertFalse(game.canPut(0));
+    }
+
+    @Test
+    public void playercannoPutAfterPutting6Times() throws Exception {
+    	IntStream.range(0, game.rows).forEach(value-> game.playerOnePutsCoin(0));
+    	assertFalse(game.canPut(0));
     }
 
 }
