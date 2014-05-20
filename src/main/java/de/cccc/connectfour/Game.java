@@ -1,55 +1,96 @@
 package de.cccc.connectfour;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Game {
 
-    private Integer[][] field = new Integer[9][9];
+	private static final String PLAYER_ONE = "player one";
+	private static final String PLAYER_TWO = "player two";
 
-    public void playerOnePutsCoin(int aCollum) {
-        for (int i = 0; i < field[aCollum].length; i++) {
-            if (field[aCollum][i] == null) {
-                field[aCollum][i] = 1;
-                break;
-            }
-        }
-    }
+	private List<Stack<String>> field = null;
+	int rows = 0;
 
-    public void playerTwoPutsCoin(int aCollum) {
-        for (int i = 0; i < field[aCollum].length; i++) {
-            if (field[aCollum][i] == null) {
-                field[aCollum][i] = 2;
-                break;
-            }
-        }
-    }
+	public Game() {
+		this(7, 6); // Standardgroesse eines connect-four Spiels
+	}
 
-    public String getLastCoin(int aCollum) {
-        for (int i = field[aCollum].length - 1; i >= 0; i--) {
-            if (field[aCollum][i] != null) {
-                switch (field[aCollum][i]) {
-                case 1:
-                    return "player one";
-                case 2:
-                    return "player two";
-                default:
-                    return "jonas";
-                }
-            }
-        }
-        return "jonas again :(";
-    }
+	/**
+	 * @param cols
+	 * @param rows
+	 */
+	public Game(int cols, int rows) {
+		this.rows = rows;
+		this.field = new ArrayList<Stack<String>>(cols);
 
-    public int getScore(int aCollum) {
-        int score = 0;
-        for (int i = 0; i < field[aCollum].length; i++) {
-            if (field[aCollum][i] != null) {
-                score++;
-            }
-        }
-        return score;
-    }
+		int i = 0;
+		while (i++ < cols) {
+			field.add(new Stack<String>());
+		}
+	}
 
-}
+	public void playerOnePutsCoin(int aCollum) {
+		field.get(aCollum).push(PLAYER_ONE);
+	}
 
-class Coin {
-    String belonginPlayer;
+	public void playerTwoPutsCoin(int aCollum) {
+		field.get(aCollum).push(PLAYER_TWO);
+	}
+
+	public String getLastCoin(int aCollum) {
+		return field.get(aCollum).peek();
+	}
+
+	public int getScore(int aCollum) {
+		return field.get(aCollum).size();
+	}
+
+	public boolean canPut(int aCollum) {
+		return field.get(aCollum).size() < rows;
+	}
+
+	int connectedElementsInColumn(int aCollum) {
+		Stack<String> stack = field.get(aCollum);
+		if (stack.isEmpty()) {
+			return 0;
+		} else {
+			AtomicInteger index = new AtomicInteger();
+			return (int) stack
+					.stream()
+					.filter(i -> i.equals(before(stack, index))
+							|| i.equals(next(stack, index))).count();
+		}
+	}
+
+	/**
+	 * FIXME: move own stack implementation
+	 * 
+	 * @param stack
+	 * @param index
+	 * @return
+	 */
+	private String before(Stack<String> stack, AtomicInteger index) {
+		int next = index.get() - 1;
+		if (next > 0)
+			return stack.get(next);
+		else
+			return null;
+	}
+
+	/**
+	 * FIXME: move own stack implementation
+	 * 
+	 * @param stack
+	 * @param index
+	 * @return
+	 */
+	private String next(Stack<String> stack, AtomicInteger index) {
+		int next = index.incrementAndGet();
+		if (next < stack.size())
+			return stack.get(next);
+		else
+			return null;
+	}
 }
